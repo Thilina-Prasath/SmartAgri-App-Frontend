@@ -1,0 +1,61 @@
+{
+  "expo": {
+    "name": "Smart Agri",
+    "slug": "smart-agri-app",
+    "version": "1.0.2",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "smartagriapp",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#0a1a0d"
+      },
+      "package": "com.thilinaprasath.smartagri",
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/icon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/icon.png",
+          "imageWidth": 150,
+          "resizeMode": "contain",
+          "backgroundColor": "#0a1a0d"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "SmartAgri needs access to your photos to analyze plant images.",
+          "cameraPermission": "SmartAgri needs access to your camera to take plant photos for disease analysis."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a73e71a6-bf25-4452-8a4f-0b769dd3f7b9"
+      }
+    },
+    "owner": "thilinaprasath"
+  }
+}
