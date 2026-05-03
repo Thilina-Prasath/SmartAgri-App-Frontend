@@ -117,7 +117,7 @@ export default function LoginScreen() {
     pressAnim();
     try {
       const res = await fetch(
-        "${process.env.EXPO_PUBLIC_API_URL}/api/users/login",
+        `${process.env.EXPO_PUBLIC_API_URL}/users/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -247,7 +247,7 @@ export default function HomeScreen() {
       formData.append("language", language);
 
       const response = await fetch(
-        "${process.env.EXPO_PUBLIC_API_URL}/analyze",
+        `${process.env.EXPO_PUBLIC_API_URL}/analyze`,
         {
           method: "POST",
           body: formData,

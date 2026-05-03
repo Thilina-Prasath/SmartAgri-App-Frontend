@@ -75,7 +75,7 @@ export default function SignupScreen() {
 
     try {
       const response = await fetch(
-        "${process.env.EXPO_PUBLIC_API_URL}/users/signup",
+        `${process.env.EXPO_PUBLIC_API_URL}/users/signup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
