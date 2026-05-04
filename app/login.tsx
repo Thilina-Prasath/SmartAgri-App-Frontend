@@ -73,10 +73,16 @@ const Particle = ({ delay, x }: any) => {
   );
 };
 
+// Simple eye icons using Unicode / text — no extra library needed
+const EyeIcon = ({ visible }: { visible: boolean }) => (
+  <Text style={styles.eyeIconText}>{visible ? "👁" : "🙈"}</Text>
+);
+
 export default function LoginScreen() {
   const { t, colors } = useApp();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const fade = useRef(new Animated.Value(0)).current;
@@ -127,7 +133,6 @@ export default function LoginScreen() {
 
       const data = await res.json();
 
-      // ✅ if/else is inside try, and uses 'res' (not 'response')
       if (res.ok) {
         await AsyncStorage.setItem("userToken", data.token);
         await AsyncStorage.setItem("userData", JSON.stringify(data.user));
@@ -201,17 +206,29 @@ export default function LoginScreen() {
             value={email}
             onChangeText={setEmail}
           />
-          <TextInput
-            placeholder={t("passwordPlaceholder")}
-            placeholderTextColor={colors.textMuted}
-            secureTextEntry
-            style={[
-              styles.input,
-              { backgroundColor: colors.inputBg, color: colors.textMain },
-            ]}
-            value={password}
-            onChangeText={setPassword}
-          />
+
+          {/* Password field with eye toggle */}
+          <View style={styles.passwordWrapper}>
+            <TextInput
+              placeholder={t("passwordPlaceholder")}
+              placeholderTextColor={colors.textMuted}
+              secureTextEntry={!showPassword}
+              style={[
+                styles.input,
+                styles.passwordInput,
+                { backgroundColor: colors.inputBg, color: colors.textMain },
+              ]}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity
+              style={styles.eyeButton}
+              onPress={() => setShowPassword((prev) => !prev)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <EyeIcon visible={showPassword} />
+            </TouchableOpacity>
+          </View>
 
           <Animated.View style={{ transform: [{ scale: scaleBtn }] }}>
             <TouchableOpacity onPress={handleLogin}>
@@ -261,6 +278,27 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 15,
   },
+  // Password row
+  passwordWrapper: {
+    position: "relative",
+    justifyContent: "center",
+    marginBottom: 0, // input inside already has marginBottom: 15
+  },
+  passwordInput: {
+    paddingRight: 50, // leave room for the eye button
+    marginBottom: 15,
+  },
+  eyeButton: {
+    position: "absolute",
+    right: 14,
+    top: 0,
+    bottom: 15, // matches input marginBottom so it aligns vertically
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  eyeIconText: {
+    fontSize: 18,
+  },
   button: {
     padding: 16,
     borderRadius: 12,
@@ -278,7 +316,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignItems: "center",
   },
-
   logoInner: {
     width: 80,
     height: 80,

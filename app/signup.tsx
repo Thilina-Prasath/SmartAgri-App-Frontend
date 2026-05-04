@@ -17,6 +17,10 @@ import {
 } from "react-native";
 import { useApp } from "../context/AppContext";
 
+const EyeIcon = ({ visible }: { visible: boolean }) => (
+  <Text style={styles.eyeIconText}>{visible ? "👁" : "🙈"}</Text>
+);
+
 export default function SignupScreen() {
   const router = useRouter();
   const { t, colors } = useApp();
@@ -25,6 +29,8 @@ export default function SignupScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(40)).current;
@@ -190,29 +196,51 @@ export default function SignupScreen() {
               onChangeText={setEmail}
             />
 
-            <TextInput
-              placeholder={t("passwordPlaceholder")}
-              placeholderTextColor={colors.textMuted}
-              secureTextEntry
-              style={[
-                styles.input,
-                { backgroundColor: colors.inputBg, color: colors.textMain },
-              ]}
-              value={password}
-              onChangeText={setPassword}
-            />
+            {/* Password field with eye toggle */}
+            <View style={styles.passwordWrapper}>
+              <TextInput
+                placeholder={t("passwordPlaceholder")}
+                placeholderTextColor={colors.textMuted}
+                secureTextEntry={!showPassword}
+                style={[
+                  styles.input,
+                  styles.passwordInput,
+                  { backgroundColor: colors.inputBg, color: colors.textMain },
+                ]}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <TouchableOpacity
+                style={styles.eyeButton}
+                onPress={() => setShowPassword((prev) => !prev)}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <EyeIcon visible={showPassword} />
+              </TouchableOpacity>
+            </View>
 
-            <TextInput
-              placeholder={t("confirmPasswordPlaceholder")}
-              placeholderTextColor={colors.textMuted}
-              secureTextEntry
-              style={[
-                styles.input,
-                { backgroundColor: colors.inputBg, color: colors.textMain },
-              ]}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
+            {/* Confirm Password field with eye toggle */}
+            <View style={styles.passwordWrapper}>
+              <TextInput
+                placeholder={t("confirmPasswordPlaceholder")}
+                placeholderTextColor={colors.textMuted}
+                secureTextEntry={!showConfirmPassword}
+                style={[
+                  styles.input,
+                  styles.passwordInput,
+                  { backgroundColor: colors.inputBg, color: colors.textMain },
+                ]}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+              <TouchableOpacity
+                style={styles.eyeButton}
+                onPress={() => setShowConfirmPassword((prev) => !prev)}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <EyeIcon visible={showConfirmPassword} />
+              </TouchableOpacity>
+            </View>
 
             {/* Button */}
             <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
@@ -318,6 +346,26 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 15,
     color: "#fff",
+  },
+
+  // Password row
+  passwordWrapper: {
+    position: "relative",
+    justifyContent: "center",
+  },
+  passwordInput: {
+    paddingRight: 50, // room for eye button
+  },
+  eyeButton: {
+    position: "absolute",
+    right: 14,
+    top: 0,
+    bottom: 15, // matches input marginBottom
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  eyeIconText: {
+    fontSize: 18,
   },
 
   button: {
