@@ -4,15 +4,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-    Alert,
-    Animated,
-    FlatList,
-    Image,
-    Platform,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  Animated,
+  FlatList,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useApp } from "../../context/AppContext";
 
@@ -286,7 +286,7 @@ export default function HistoryScreen() {
                 );
 
                 const response = await fetch(
-                  `https://smartagri-app-9sn4.onrender.com/api/analyze/history/${itemId}?userId=${userId}`,
+                  `${process.env.EXPO_PUBLIC_API_URL}/analyze/history/${itemId}?userId=${userId}`,
                   {
                     method: "DELETE",
                     headers: {
@@ -310,7 +310,7 @@ export default function HistoryScreen() {
                     typeof errorData === "string"
                       ? errorData.substring(0, 100)
                       : errorData,
-                  ); // Error එක Terminal එකේ බලාගන්න
+                  );
                   throw new Error("Failed to delete from database");
                 }
               }
